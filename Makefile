@@ -12,8 +12,8 @@ help: deps
 lint: deps-dev
 	@pipenv run flake8
 
-run-debug: deps
-	@pipenv run python3 run.py --debug=True
+run-dev: deps
+	@pipenv run python3 run.py --debug=True --reload=True
 
 run: deps
 	@pipenv run python3 run.py
