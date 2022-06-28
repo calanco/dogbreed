@@ -1,8 +1,9 @@
 from fastapi import APIRouter
+from fastapi.responses import PlainTextResponse
 
 router = APIRouter()
 
 
-@router.get("/")
+@router.get("/", response_class=PlainTextResponse)
 async def home():
-    return {"message": "Hello World"}
+    return "Welcome to Dogbreed!"
