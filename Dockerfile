@@ -1,15 +1,20 @@
-FROM python:3.9
+FROM python:3.9 AS builder
+
+RUN pip install --user pipenv
+ENV PIPENV_VENV_IN_PROJECT=1
+ADD Pipfile.lock Pipfile /usr/src/
+WORKDIR /usr/src
+RUN /root/.local/bin/pipenv sync
+
+FROM python:3.9 AS runtime
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /dogbreed
-RUN python -m pip install --upgrade pip
+RUN mkdir -v /usr/src/venv
+COPY --from=builder /usr/src/.venv/ /usr/src/venv/
+COPY app /usr/src/app
+COPY run.py /usr/src/
+WORKDIR /usr/src/
 
-COPY Pipfile Pipfile.lock ./
-RUN pip install --no-cache-dir pipenv \
-    && pipenv install --system --deploy --clear
-
-COPY ./app ./app
-CMD ["pipenv", "run", "uvicorn", "app.main:app", \
-        "--host", "0.0.0.0", "--port", "8080"]
+CMD ["./venv/bin/python", "run.py", "--host", "0.0.0.0", "--port", "8080"]

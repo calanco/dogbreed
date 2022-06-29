@@ -1,16 +1,18 @@
 .SHELLFLAGS: -ec
 
+PYTHON = pipenv run python3
+
 deps-dev:
 	@pipenv install --dev 
 
 help: deps-dev
-	@pipenv run python3 run.py --help
+	@$(PYTHON) run.py --help
 
 lint: deps-dev
 	@pipenv run flake8
 
 run-dev: deps-dev
-	@pipenv run uvicorn --host=0.0.0.0 --reload --debug app.main:app
+	@$(PYTHON) run.py --debug=True --reload=True
 
 build:
 	@docker build -t dogbreed .
