@@ -1,19 +1,19 @@
 .SHELLFLAGS: -ec
 
-deps:
-	@pipenv install
-
 deps-dev:
 	@pipenv install --dev 
 
-help: deps
+help: deps-dev
 	@pipenv run python3 run.py --help
 
 lint: deps-dev
 	@pipenv run flake8
 
-run-dev: deps
-	@pipenv run python3 run.py --debug=True --reload=True
+run-dev: deps-dev
+	@pipenv run uvicorn --host=0.0.0.0 --reload --debug app.main:app
 
-run: deps
-	@pipenv run python3 run.py
+build:
+	@docker build -t dogbreed .
+
+run: build
+	@docker run -p 8080:8080 dogbreed:latest

@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-import dogbreed.api.home as home
+import app.api.routes.home as home
 
 app = FastAPI()
 
