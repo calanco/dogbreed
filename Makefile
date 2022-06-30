@@ -19,3 +19,9 @@ build:
 
 run: build
 	@docker run -p 8080:8080 dogbreed:latest
+
+build-postgres:
+	@docker build -t postgres-dogbreed data
+
+run-db: build-postgres
+	@docker run -p 5432:5432 postgres-dogbreed
