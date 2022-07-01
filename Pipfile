@@ -5,7 +5,9 @@ name = "pypi"
 
 [packages]
 fastapi='*'
-uvicorn = "*"
+uvicorn = '*'
+sqlalchemy='*'
+psycopg2='*'
 
 [dev-packages]
 flake8='*'

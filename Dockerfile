@@ -8,6 +8,8 @@ RUN /root/.local/bin/pipenv sync
 
 FROM python:3.9 AS runtime
 
+EXPOSE 8080
+
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
