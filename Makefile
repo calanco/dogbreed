@@ -12,13 +12,15 @@ lint: deps-dev
 	@pipenv run flake8
 
 run-dev: deps-dev
-	@$(PYTHON) run.py --debug=True --reload=True
+	@export DB_HOSTNAME=localhost; \
+	$(PYTHON) run.py --debug=True --reload=True
 
 build:
 	@docker build -t dogbreed .
 
 run: build
-	@docker run --rm -p 8080:8080 dogbreed:latest
+	@docker run --rm -p 8080:8080 -e DB_HOSTNAME=host.docker.internal \
+		dogbreed:latest
 
 build-postgres:
 	@docker build -t postgres-dogbreed data
