@@ -1,2 +1,2 @@
 # dogbreed
-API to vote your most preferred dog breeds
+REST API to retrieve and store information about your most preferred dog breeds
