@@ -8,7 +8,7 @@ class BreedSize(Enum):
     extra_large = 'extra_large'
 
 
-class BreedEnergylevel(Enum):
+class BreedEnergyLevel(Enum):
     low = 'low'
     moderate = 'moderate'
     high = 'high'

@@ -2,6 +2,8 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from app.db.models.breed import Breed
 from app.db.database import get_db
+from app.schemas.breed import RequestBreed
+from app.api.exceptions import ExistingBreedException
 import logging
 
 router = APIRouter(prefix='/api/v1', tags=["Breed"])
@@ -32,3 +34,30 @@ async def read_breeds(db: Session = Depends(get_db)):
         logging.warn("No breed has been found, check DB table")
         raise HTTPException(status_code=404, detail="No breed has been found")
     return breeds
+
+
+@router.post("/breed")
+async def create_breed(requestBreed: RequestBreed,
+                       db: Session = Depends(get_db)):
+    try:
+        existing_breed = db.query(Breed) \
+            .filter(Breed.breed == requestBreed.breed).first()
+
+        if existing_breed is not None:
+            raise ExistingBreedException(requestBreed.breed)
+
+        breed = Breed(
+            breed=requestBreed.breed,
+            size=requestBreed.size,
+            energy_level=requestBreed.energy_level,
+            image_link=requestBreed.image_link
+        )
+        db.add(breed)
+        db.commit()
+        return requestBreed
+    except ExistingBreedException as e:
+        logging.warn(e.detail)
+        raise HTTPException(status_code=e.status_code, detail=e.detail)
+    except Exception:
+        logging.error("Error while creating breed into DB", exc_info=True)
+        raise HTTPException(status_code=500)
