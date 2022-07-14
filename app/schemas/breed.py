@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
-from app.db.models.enums import BreedSize, BreedEnergyLevel
+from app.models.enums import BreedSize, BreedEnergyLevel
 
 
 class RequestBreed(BaseModel):

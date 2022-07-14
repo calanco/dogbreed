@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
-from app.db.models.breed import Breed
-from app.db.database import get_db
+from app.models.breed import Breed
+from app.database import get_db
 from app.schemas.breed import RequestBreed
 from app.api.exceptions import ExistingBreedException
 import logging

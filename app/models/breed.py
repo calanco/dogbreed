@@ -1,6 +1,6 @@
-from app.db.database import Base
+from app.database import Base
 from sqlalchemy import Column, Integer, String, Enum
-from app.db.models.enums import BreedSize, BreedEnergyLevel
+from app.models.enums import BreedSize, BreedEnergyLevel
 
 
 class Breed(Base):
