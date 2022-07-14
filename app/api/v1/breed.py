@@ -45,13 +45,13 @@ async def create_breed(request_breed: RequestBreed,
     """Handle CREATE operation of request_breed."""
     try:
         existing_breed = db.query(Breed) \
-            .filter(Breed.breed == request_breed.breed).first()
+            .filter(Breed.name == request_breed.name).first()
 
         if existing_breed is not None:
-            raise ExistingBreedException(request_breed.breed)
+            raise ExistingBreedException(request_breed.name)
 
         breed = Breed(
-            breed=request_breed.breed,
+            name=request_breed.name,
             size=request_breed.size,
             energy_level=request_breed.energy_level,
             image_link=request_breed.image_link
@@ -96,14 +96,14 @@ async def update_breed(id: int, request_breed: RequestBreed,
         if existing_breed is None:
             raise UnExistingBreedException(id)
 
-        existing_breed_name = db.query(Breed) \
-            .filter(Breed.breed == request_breed.breed).first()
-        if existing_breed_name is not None and id != existing_breed_name.id:
-            raise ExistingBreedException(request_breed.breed)
+        existing_name = db.query(Breed) \
+            .filter(Breed.name == request_breed.name).first()
+        if existing_name is not None and id != existing_name.id:
+            raise ExistingBreedException(request_breed.name)
 
         new_breed = Breed(
             id=id,
-            breed=request_breed.breed,
+            name=request_breed.name,
             size=request_breed.size,
             energy_level=request_breed.energy_level,
             image_link=request_breed.image_link

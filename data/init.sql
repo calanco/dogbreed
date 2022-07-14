@@ -9,13 +9,13 @@ CREATE TYPE energy_level AS ENUM ('low', 'moderate', 'high');
 
 CREATE TABLE breeds(
     id SERIAL PRIMARY KEY,
-    breed varchar(50) UNIQUE NOT NULL,
+    name varchar(50) UNIQUE NOT NULL,
     size size,
     energy_level energy_level,
     image_link varchar(100)
 );
 
-INSERT INTO breeds (breed, size, energy_level) VALUES 
+INSERT INTO breeds (name, size, energy_level) VALUES 
 ('American Foxhound', 'large', 'high'),
 ('Boston Terrier', 'small', 'moderate'),
 ('Irish Wolfhound Terrier', 'extra_large', 'low'),
