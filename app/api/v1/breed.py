@@ -4,6 +4,7 @@ from app.models.breed import Breed
 from app.database import get_db
 from app.schemas.breed import RequestBreed
 from app.api.exceptions import ExistingBreedException
+import copy
 import logging
 
 router = APIRouter(prefix='/api/v1', tags=["Breed"])
@@ -53,8 +54,10 @@ async def create_breed(requestBreed: RequestBreed,
             image_link=requestBreed.image_link
         )
         db.add(breed)
+        db.flush()
+        result = copy.copy(breed)
         db.commit()
-        return requestBreed
+        return result
     except ExistingBreedException as e:
         logging.warn(e.detail)
         raise HTTPException(status_code=e.status_code, detail=e.detail)
