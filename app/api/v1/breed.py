@@ -66,7 +66,7 @@ async def create_breed(requestBreed: RequestBreed,
         raise HTTPException(status_code=500)
 
 
-@router.delete("/delete/{id}")
+@router.delete("/breed/{id}")
 async def delete_breed(id: int, db: Session = Depends(get_db)):
     try:
         existing_breed = db.query(Breed).filter(Breed.id == id).first()
