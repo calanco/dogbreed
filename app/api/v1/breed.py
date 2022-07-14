@@ -40,21 +40,21 @@ async def read_breeds(db: Session = Depends(get_db)):
 
 
 @router.post("/breed")
-async def create_breed(requestBreed: RequestBreed,
+async def create_breed(request_breed: RequestBreed,
                        db: Session = Depends(get_db)):
-    """Handle CREATE operation of requestBreed."""
+    """Handle CREATE operation of request_breed."""
     try:
         existing_breed = db.query(Breed) \
-            .filter(Breed.breed == requestBreed.breed).first()
+            .filter(Breed.breed == request_breed.breed).first()
 
         if existing_breed is not None:
-            raise ExistingBreedException(requestBreed.breed)
+            raise ExistingBreedException(request_breed.breed)
 
         breed = Breed(
-            breed=requestBreed.breed,
-            size=requestBreed.size,
-            energy_level=requestBreed.energy_level,
-            image_link=requestBreed.image_link
+            breed=request_breed.breed,
+            size=request_breed.size,
+            energy_level=request_breed.energy_level,
+            image_link=request_breed.image_link
         )
         db.add(breed)
         db.flush()
@@ -88,25 +88,25 @@ async def delete_breed(id: int, db: Session = Depends(get_db)):
 
 
 @router.put("/breed/{id}")
-async def update_breed(id: int, requestBreed: RequestBreed,
+async def update_breed(id: int, request_breed: RequestBreed,
                        db: Session = Depends(get_db)):
-    """Handle UPDATE operation of requestBreed with id."""
+    """Handle UPDATE operation of request_breed with id."""
     try:
         existing_breed = db.query(Breed).filter(Breed.id == id).first()
         if existing_breed is None:
             raise UnExistingBreedException(id)
 
         existing_breed_name = db.query(Breed) \
-            .filter(Breed.breed == requestBreed.breed).first()
+            .filter(Breed.breed == request_breed.breed).first()
         if existing_breed_name is not None and id != existing_breed_name.id:
-            raise ExistingBreedException(requestBreed.breed)
+            raise ExistingBreedException(request_breed.breed)
 
         new_breed = Breed(
             id=id,
-            breed=requestBreed.breed,
-            size=requestBreed.size,
-            energy_level=requestBreed.energy_level,
-            image_link=requestBreed.image_link
+            breed=request_breed.breed,
+            size=request_breed.size,
+            energy_level=request_breed.energy_level,
+            image_link=request_breed.image_link
         )
 
         db.delete(existing_breed)
