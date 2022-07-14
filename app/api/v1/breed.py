@@ -12,6 +12,7 @@ router = APIRouter(prefix='/api/v1', tags=["Breed"])
 
 @router.get("/breed/{id}")
 async def read_breed(id: int, db: Session = Depends(get_db)):
+    """Handle READ operation of breed with id."""
     try:
         breeds = db.query(Breed).filter(Breed.id == id).first()
     except Exception:
@@ -25,6 +26,7 @@ async def read_breed(id: int, db: Session = Depends(get_db)):
 
 @router.get("/breeds")
 async def read_breeds(db: Session = Depends(get_db)):
+    """Handle READ operation of all breeds in DB."""
     try:
         breeds = db.query(Breed).all()
     except Exception:
@@ -40,6 +42,7 @@ async def read_breeds(db: Session = Depends(get_db)):
 @router.post("/breed")
 async def create_breed(requestBreed: RequestBreed,
                        db: Session = Depends(get_db)):
+    """Handle CREATE operation of requestBreed."""
     try:
         existing_breed = db.query(Breed) \
             .filter(Breed.breed == requestBreed.breed).first()
@@ -68,6 +71,7 @@ async def create_breed(requestBreed: RequestBreed,
 
 @router.delete("/breed/{id}")
 async def delete_breed(id: int, db: Session = Depends(get_db)):
+    """Handle DELETE operation of breed with id."""
     try:
         existing_breed = db.query(Breed).filter(Breed.id == id).first()
 
@@ -86,6 +90,7 @@ async def delete_breed(id: int, db: Session = Depends(get_db)):
 @router.put("/breed/{id}")
 async def update_breed(id: int, requestBreed: RequestBreed,
                        db: Session = Depends(get_db)):
+    """Handle UPDATE operation of requestBreed with id."""
     try:
         existing_breed = db.query(Breed).filter(Breed.id == id).first()
         if existing_breed is None:

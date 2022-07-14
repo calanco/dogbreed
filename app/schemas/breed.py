@@ -4,6 +4,7 @@ from app.models.enums import BreedSize, BreedEnergyLevel
 
 
 class RequestBreed(BaseModel):
+    """Model breed requests of user."""
     breed: str
     size: Optional[BreedSize] = None
     energy_level: Optional[BreedEnergyLevel] = None

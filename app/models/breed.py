@@ -4,6 +4,7 @@ from app.models.enums import BreedSize, BreedEnergyLevel
 
 
 class Breed(Base):
+    """Model breeds table"""
     __tablename__ = "breeds"
 
     id = Column(Integer, primary_key=True, index=True)
