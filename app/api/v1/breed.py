@@ -81,3 +81,37 @@ async def delete_breed(id: int, db: Session = Depends(get_db)):
     except Exception:
         logging.error("Error while deleting breed from DB", exc_info=True)
         raise HTTPException(status_code=500)
+
+
+@router.put("/breed/{id}")
+async def update_breed(id: int, requestBreed: RequestBreed,
+                       db: Session = Depends(get_db)):
+    try:
+        existing_breed = db.query(Breed).filter(Breed.id == id).first()
+        if existing_breed is None:
+            raise UnExistingBreedException(id)
+
+        existing_breed_name = db.query(Breed) \
+            .filter(Breed.breed == requestBreed.breed).first()
+        if existing_breed_name is not None and id != existing_breed_name.id:
+            raise ExistingBreedException(requestBreed.breed)
+
+        new_breed = Breed(
+            id=id,
+            breed=requestBreed.breed,
+            size=requestBreed.size,
+            energy_level=requestBreed.energy_level,
+            image_link=requestBreed.image_link
+        )
+
+        db.delete(existing_breed)
+        db.add(new_breed)
+        db.flush()
+        result = copy.copy(new_breed)
+        db.commit()
+        return result
+    except (UnExistingBreedException, ExistingBreedException) as e:
+        raise HTTPException(status_code=e.status_code, detail=e.detail)
+    except Exception:
+        logging.error("Error while deleting breed from DB", exc_info=True)
+        raise HTTPException(status_code=500)
