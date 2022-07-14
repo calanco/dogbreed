@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.models.breed import Breed
 from app.database import get_db
 from app.schemas.breed import RequestBreed
-from app.api.exceptions import ExistingBreedException
+from app.api.exceptions import ExistingBreedException, UnExistingBreedException
 import copy
 import logging
 
@@ -63,4 +63,21 @@ async def create_breed(requestBreed: RequestBreed,
         raise HTTPException(status_code=e.status_code, detail=e.detail)
     except Exception:
         logging.error("Error while creating breed into DB", exc_info=True)
+        raise HTTPException(status_code=500)
+
+
+@router.delete("/delete/{id}")
+async def delete_breed(id: int, db: Session = Depends(get_db)):
+    try:
+        existing_breed = db.query(Breed).filter(Breed.id == id).first()
+
+        if existing_breed is None:
+            raise UnExistingBreedException(id)
+
+        db.delete(existing_breed)
+        db.commit()
+    except UnExistingBreedException as u:
+        raise HTTPException(status_code=u.status_code, detail=u.detail)
+    except Exception:
+        logging.error("Error while deleting breed from DB", exc_info=True)
         raise HTTPException(status_code=500)
