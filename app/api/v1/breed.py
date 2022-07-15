@@ -7,7 +7,7 @@ from app.api.exceptions import ExistingBreedException, UnExistingBreedException
 import copy
 import logging
 
-router = APIRouter(prefix='/api/v1', tags=["Breed"])
+router = APIRouter(prefix="/api/v1", tags=["Breed"])
 
 
 @router.get("/breed/{id}")
@@ -40,12 +40,12 @@ async def read_breeds(db: Session = Depends(get_db)):
 
 
 @router.post("/breed")
-async def create_breed(request_breed: RequestBreed,
-                       db: Session = Depends(get_db)):
+async def create_breed(request_breed: RequestBreed, db: Session = Depends(get_db)):
     """Handle CREATE operation of request_breed."""
     try:
-        existing_breed = db.query(Breed) \
-            .filter(Breed.name == request_breed.name).first()
+        existing_breed = (
+            db.query(Breed).filter(Breed.name == request_breed.name).first()
+        )
 
         if existing_breed is not None:
             raise ExistingBreedException(request_breed.name)
@@ -54,7 +54,7 @@ async def create_breed(request_breed: RequestBreed,
             name=request_breed.name,
             size=request_breed.size,
             energy_level=request_breed.energy_level,
-            image_link=request_breed.image_link
+            image_link=request_breed.image_link,
         )
         db.add(breed)
         db.flush()
@@ -88,16 +88,16 @@ async def delete_breed(id: int, db: Session = Depends(get_db)):
 
 
 @router.put("/breed/{id}")
-async def update_breed(id: int, request_breed: RequestBreed,
-                       db: Session = Depends(get_db)):
+async def update_breed(
+    id: int, request_breed: RequestBreed, db: Session = Depends(get_db)
+):
     """Handle UPDATE operation of request_breed with id."""
     try:
         existing_breed = db.query(Breed).filter(Breed.id == id).first()
         if existing_breed is None:
             raise UnExistingBreedException(id)
 
-        existing_name = db.query(Breed) \
-            .filter(Breed.name == request_breed.name).first()
+        existing_name = db.query(Breed).filter(Breed.name == request_breed.name).first()
         if existing_name is not None and id != existing_name.id:
             raise ExistingBreedException(request_breed.name)
 
@@ -106,7 +106,7 @@ async def update_breed(id: int, request_breed: RequestBreed,
             name=request_breed.name,
             size=request_breed.size,
             energy_level=request_breed.energy_level,
-            image_link=request_breed.image_link
+            image_link=request_breed.image_link,
         )
 
         db.delete(existing_breed)

@@ -4,14 +4,11 @@ from sqlalchemy.ext.declarative import declarative_base
 import os
 
 
-DB_HOSTNAME = os.environ['DB_HOSTNAME']
+DB_HOSTNAME = os.environ["DB_HOSTNAME"]
 
 SQLALCHEMY_DATABASE_URI = f"postgresql://docker:docker@{DB_HOSTNAME}/dogbreed"
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URI,
-    pool_pre_ping=True
-)
+engine = create_engine(SQLALCHEMY_DATABASE_URI, pool_pre_ping=True)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
