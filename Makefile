@@ -9,7 +9,7 @@ help: deps-dev
 	@$(PYTHON) run.py --help
 
 lint: deps-dev
-	@pipenv run flake8
+	@pipenv run pre-commit run --all-files
 
 run-dev: deps-dev
 	@export DB_HOSTNAME=localhost; \
