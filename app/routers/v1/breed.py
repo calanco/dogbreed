@@ -21,9 +21,9 @@ async def read_breed(id: int, db: Session = Depends(get_db)):
 
 
 @router.get("/breeds")
-async def read_breeds(db: Session = Depends(get_db)):
+async def read_breeds(page: int, size: int, db: Session = Depends(get_db)):
     """Handle READ operation of all breeds in DB."""
-    breeds = db.query(Breed).all()
+    breeds = db.query(Breed).offset(page).limit(size).all()
 
     if breeds is None or len(breeds) == 0:
         raise EmptyBreedTable()
