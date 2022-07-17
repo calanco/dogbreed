@@ -4,7 +4,7 @@ from fastapi_health import health
 from app.routers.health import is_database_online
 import app.routers.home as home
 import app.routers.v1.breed as breed
-from app.exceptions import (
+from app.exceptions.breed import (
     ExistingBreedException,
     UnExistingBreedException,
     EmptyBreedTable,
