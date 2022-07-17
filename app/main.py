@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 import app.routers.home as home
 import app.routers.v1.breed as breed
-from app.routers.exceptions import (
+from app.exceptions import (
     ExistingBreedException,
     UnExistingBreedException,
     EmptyBreedTable,

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.models.breed import Breed
 from app.config.database import get_db
 from app.schemas.breed import RequestBreed
-from app.routers.exceptions import *
+from app.exceptions import *
 import copy
 
 router = APIRouter(prefix="/api/v1", tags=["Breed"])
