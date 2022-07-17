@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from app.models.breed import Breed
 from app.config.database import get_db
@@ -60,6 +61,9 @@ async def delete_breed(id: int, db: Session = Depends(get_db)):
 
     db.delete(existing_breed)
     db.commit()
+    return JSONResponse(
+        status_code=200, content={"detail": "Breed has been deleted successfully"}
+    )
 
 
 @router.put("/breed/{id}")
