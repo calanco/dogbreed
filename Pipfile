@@ -8,6 +8,7 @@ fastapi='*'
 uvicorn = '*'
 sqlalchemy='*'
 psycopg2='*'
+fastapi-health='*'
 
 [dev-packages]
 pre-commit='*'

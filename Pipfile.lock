@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "72ef3f95044d7d6be7f4be586b70c5a04a9356f1eb9314f1724984bfbdf18169"
+            "sha256": "23d9ac3b3cee71d3e7ec2190468039b31a6fac20ac791204ced77da5aa9e18cf"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -39,6 +39,14 @@
             ],
             "index": "pypi",
             "version": "==0.79.0"
+        },
+        "fastapi-health": {
+            "hashes": [
+                "sha256:a0781b2359732d50cddda1195784f78950265c6b3689d7a1e6e65a21aed4d6a5",
+                "sha256:d6c1795f7596009cffa7a84d5a67a6b66bbf9d6ce79b040fd50601ed5392089f"
+            ],
+            "index": "pypi",
+            "version": "==0.4.0"
         },
         "greenlet": {
             "hashes": [

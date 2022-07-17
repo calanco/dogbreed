@@ -1,5 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+from fastapi_health import health
+from app.routers.health import is_database_online
 import app.routers.home as home
 import app.routers.v1.breed as breed
 from app.exceptions import (
@@ -10,6 +12,8 @@ from app.exceptions import (
 import logging
 
 app = FastAPI()
+
+app.add_api_route("/health", health([is_database_online]))
 
 app.include_router(home.router)
 app.include_router(breed.router)
